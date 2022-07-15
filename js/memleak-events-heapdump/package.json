@@ -1,0 +1,21 @@
+{
+  "name": "02-memleak-events",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "CLIMEM=8999 node -r climem --experimental-modules index.js",
+    "climem": "npx climem 8999",
+    "test": "npx autocannon -c 100 -d 30 -p 10 http://localhost:3000"
+  },
+  "keywords": [],
+  "author": "renanponick",
+  "license": "ISC",
+  "dependencies": {
+    "climem": "1.0.3",
+    "heapdump": "0.3.15"
+  },
+  "devDependencies": {
+    "autocannon": "7.9.0"
+  }
+}

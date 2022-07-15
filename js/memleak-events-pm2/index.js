@@ -1,6 +1,7 @@
-// By Youtube - Erick Wendel
-// node --experimental-modules index.js
-// node --max-old-space-size=64 index.js
+// npm install pm2 -g
+// pm2 start server.js --node-args="--max-old-space-size=120"
+// pm2 stop server
+
 var { createServer } = require('http')
 var Events = require('events')
 var { randomBytes } = require('crypto')
