@@ -1,1 +1,22 @@
 node_modules
+
+# Compiled files
+*.tfstate
+*.tfstate.backup
+*.tfstate.*.backup
+
+# Module directory
+.terraform/
+.terraform.lock.hcl
+
+# Local variables
+*.tfvars
+
+# Generated files during the apply
+terraform/generated/
+
+# Backup files
+*.bak
+
+# Local saved plans
+tfplan
