@@ -77,25 +77,3 @@ resource "postgresql_grant" "admin" {
   object_type = "table"
   privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES"]
 }
-#
-# Users
-resource "postgresql_role" "teste_readonly" {
-  for_each            = toset([
-    "batata",
-    "teste"
-  ])
-  provider            = postgresql.main
-  login               = true
-  name                = each.value
-  password            = "abc123"
-  roles               = [postgresql_role.readonly.name]
-  skip_reassign_owned = true
-}
-resource "postgresql_role" "teste_admin" {
-  provider            = postgresql.main
-  login               = true
-  name                = "testeadm"
-  password            = "abc123"
-  roles               = [postgresql_role.admin.name]
-  skip_reassign_owned = true
-}
