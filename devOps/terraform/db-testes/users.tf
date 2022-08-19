@@ -3,9 +3,9 @@ resource "random_password" "passwords" {
   special           = true
   count             = 3
   override_special  = "!#$%&*()-_=+[]{}<>:?"
-  # keepers = {
-  #   trigger = timestamp()
-  # }
+  keepers = {
+    trigger = timestamp()
+  }
 }
 
 #
