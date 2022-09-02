@@ -8,13 +8,20 @@ resource "random_password" "passwords" {
   # }
 }
 
-#
+locals {
+  users = [ "teste", "admin", "batata" ]
+  passwords = random_password.passwords[*].result
+
+  full_users = { for i, k in local.passwords : local.users[i] => k }
+}
+output "all" {
+  value = local.full_users
+}
+
+
 # Users
 resource "postgresql_role" "teste_readonly" {
-  for_each            = {
-        "batata" = random_password.passwords[0].result,
-        "teste" = random_password.passwords[1].result
-    }
+  for_each = local.full_users
   
   provider            = postgresql.main
   login               = true
@@ -33,9 +40,8 @@ resource "postgresql_role" "teste_admin" {
   skip_reassign_owned = true
 }
 
-
 output "teste_readonly_password" {
-  value = postgresql_role.teste_readonly["batata"].password
+  value = postgresql_role.teste_readonly[*]
 }
 output "teste_admin" {
   value = postgresql_role.teste_admin.password
