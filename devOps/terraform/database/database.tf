@@ -29,7 +29,10 @@ resource "postgresql_database" "teste" {
 # Roles
 resource "postgresql_role" "admin" {
   provider = postgresql.main
-  name     = "admin"
+  create_database = true
+  name     = "admin123"
+  login = true
+  password = "123"
 }
 resource "postgresql_role" "readonly" {
   provider = postgresql.main
@@ -67,13 +70,22 @@ resource "postgresql_grant" "readonly" {
   object_type = "table"
   privileges  = ["SELECT"]
 }
-resource "postgresql_grant" "admin" {
-  depends_on = [ postgresql_database.teste, postgresql_schema.teste  ]
-  for_each = toset(["public"])
+# resource "postgresql_grant" "admin" {
+#   depends_on = [ postgresql_database.teste, postgresql_schema.teste  ]
+#   for_each = toset(["public"])
+#   provider    = postgresql.main
+#   role        = postgresql_role.admin.name
+#   database    = "teste"
+#   schema      = each.value
+#   object_type = "table"
+#   privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES"]
+# }
+resource "postgresql_grant" "admin2" {
+  depends_on = [ postgresql_database.teste, postgresql_schema.teste ]
   provider    = postgresql.main
-  role        = postgresql_role.admin.name
+  role        = "admin123"
   database    = "teste"
-  schema      = each.value
-  object_type = "table"
-  privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE", "TRUNCATE", "REFERENCES"]
+  object_type = "database"
+  privileges  = ["CREATE"]
+  with_grant_option = "true"
 }

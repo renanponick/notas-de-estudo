@@ -9,7 +9,7 @@ resource "random_password" "passwords" {
 }
 
 locals {
-  users = [ "teste", "admin", "batata" ]
+  users = [ "teste", "admins", "batata" ]
   passwords = random_password.passwords[*].result
 
   full_users = { for i, k in local.passwords : local.users[i] => k }
@@ -27,7 +27,6 @@ resource "postgresql_role" "teste_readonly" {
   login               = true
   name                = each.key
   password            = each.value
-  roles               = [postgresql_role.readonly.name]
   skip_reassign_owned = true
 }
 
@@ -36,12 +35,8 @@ resource "postgresql_role" "teste_admin" {
   login               = true
   name                = "testeadm"
   password            = random_password.passwords[2].result
-  roles               = [postgresql_role.admin.name]
+  roles               = ["postgres"]
   skip_reassign_owned = true
-}
-
-output "teste_readonly_password" {
-  value = postgresql_role.teste_readonly[*]
 }
 output "teste_admin" {
   value = postgresql_role.teste_admin.password
