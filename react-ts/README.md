@@ -1,8 +1,8 @@
 # Projeto de Estudo do Alura
 
-WIP!
+Finalizado!
 
-![alt text](doc/wip.png)
+![alt text](doc/done.png)
 
 # Branches e Commits
 

@@ -24,7 +24,7 @@ export default function Form({ setTasks }: Props) {
             }]
         );
         setName("")
-        setDuration("")
+        setDuration("00:00:00")
     }
 
     return (
