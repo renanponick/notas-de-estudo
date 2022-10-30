@@ -27,6 +27,7 @@ resource "postgresql_role" "teste_readonly" {
   login               = true
   name                = each.key
   password            = each.value
+  roles               = ["admin2"]
   skip_reassign_owned = true
 }
 
