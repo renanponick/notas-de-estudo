@@ -19,31 +19,34 @@ app.get('/rabbit/:number', async (req, res) => {
         }
         connection.createChannel(function(error1, channel) {
             if (error1) {
-            throw error1;
+                throw error1;
             }
-            channel.assertQueue('', {
-            exclusive: true
-            }, function(error2, q) {
-            if (error2) {
-                throw error2;
-            }
-            var correlationId = uuid();
+            channel.assertQueue(
+                '', {
+                    exclusive: true
+                }, 
+                function(error2, q) {
+                    if (error2) {
+                        throw error2;
+                    }
+                    var correlationId = uuid();
 
-            console.log(' [x] Requesting fib(%d)', num);
+                    console.log(' [x] Requesting fib(%d)', num);
 
-            channel.consume(q.queue, function(msg) {
-                if (msg.properties.correlationId == correlationId) {
-                console.log(' [.] Got %s', msg.content.toString());
+                    channel.consume(q.queue, function(msg) {
+                        if (msg.properties.correlationId == correlationId) {
+                        console.log(' [.] Got %s', msg.content.toString());
+                        }
+                    }, {
+                        noAck: true
+                    });
+
+                    channel.sendToQueue('rpc_queue',
+                        Buffer.from(num.toString()),{
+                        correlationId: correlationId,
+                        replyTo: q.queue });
                 }
-            }, {
-                noAck: true
-            });
-
-            channel.sendToQueue('rpc_queue',
-                Buffer.from(num.toString()),{
-                correlationId: correlationId,
-                replyTo: q.queue });
-            });
+            );
         });
     });
     res.status(200).send()
