@@ -1,0 +1,24 @@
+{
+  "name": "tdd",
+  "version": "1.0.0",
+  "description": "Will be used to explain the uses of TDD",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "jest --coverage test/index.test.js",
+    "test:watch": "jest test/index.test.js --watch"
+  },
+  "repository": "git@github.com/renanponick/TDD.git",
+  "author": "Renan Ponick",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "29.3.0",
+    "jest-junit": "15.0.0",
+    "nyc": "15.1.0"
+  },
+  "dependencies": {
+    "express": "4.18.2",
+    "nodemon": "2.0.20"
+  }
+}
