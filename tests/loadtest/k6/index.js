@@ -1,3 +1,4 @@
+// bese doc -> https://stepzen.com/blog/load-testing-graphql-performance-k6
 import http from 'k6/http';
 
 const query = `
