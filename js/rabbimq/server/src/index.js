@@ -5,7 +5,8 @@ const app = express()
 const port = 3001
 
 app.get('/oi', (req, res) => {
-    res.status(200).send('To vivo')
+    console.log(process.env.FILA)
+    res.status(200).send(process.env.FILA)
 })
 
 app.listen(port, () => {
@@ -20,7 +21,7 @@ amqp.connect('amqp://localhost', function(error0, connection) {
     if (error1) {
       throw error1;
     }
-    var queue = 'rpc_queue';
+    var queue = 'rpc_queue'+process.env.FILA;
 
     channel.assertQueue(queue, {
       durable: false

@@ -6,7 +6,8 @@ const app = express()
 const port = 3002
 
 app.get('/oi', (req, res) => {
-    res.status(200).send('To vivo')
+    console.log(process.env.FILA)
+    res.status(200).send(process.env.FILA)
 })
 
 app.get('/rabbit/:number', async (req, res) => {
@@ -41,7 +42,7 @@ app.get('/rabbit/:number', async (req, res) => {
                         noAck: true
                     });
 
-                    channel.sendToQueue('rpc_queue',
+                    channel.sendToQueue('rpc_queue'+process.env.FILA,
                         Buffer.from(num.toString()),{
                         correlationId: correlationId,
                         replyTo: q.queue });
