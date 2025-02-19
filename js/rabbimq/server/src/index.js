@@ -29,8 +29,8 @@ amqp.connect('amqp://localhost', function(error0, connection) {
     channel.prefetch(1);
     console.log(' [x] Awaiting RPC requests');
     channel.consume(queue, function reply(msg) {
+      try {
       var n = parseInt(msg.content.toString());
-    
       console.log(" [.] fib(%d)", n);
 
       var r = fibonacci(n);
@@ -40,8 +40,19 @@ amqp.connect('amqp://localhost', function(error0, connection) {
           correlationId: msg.properties.correlationId
         });
 
+        const headers = msg.properties.headers || {};
+        const deathCount = headers['x-death'] ? headers['x-death'][0].count : 0;
+        console.log(headers, deathCount)
+
+        process.exit(1)
+        throw new Error('(=')
+        channel.ack(msg);
+        
+    } catch (error) {
+      // execute um sigterm
+      console.log(error)
       channel.ack(msg);
-    });
+    }});
   });
 });
 
